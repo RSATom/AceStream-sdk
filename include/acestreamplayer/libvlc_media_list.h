@@ -208,7 +208,7 @@ LIBVLC_API libvlc_event_manager_t *
  * \param pos_to position to
  */ 
 LIBVLC_API int libvlc_media_list_item_move( libvlc_media_list_t *p_ml, int pos_from, int pos_to );
-
+    
 /** @} media_list */
 
 # ifdef __cplusplus

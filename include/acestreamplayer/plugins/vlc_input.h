@@ -2,7 +2,7 @@
  * vlc_input.h: Core input structures
  *****************************************************************************
  * Copyright (C) 1999-2006 VLC authors and VideoLAN
- * $Id: b48a256ca4d7be090540a638f0c3040d17410b55 $
+ * $Id: 7d8320a75ce9b2263aa3ec1fe34090cc4f7cf732 $
  *
  * Authors: Christophe Massiot <massiot@via.ecp.fr>
  *          Laurent Aimar <fenrir@via.ecp.fr>
@@ -38,6 +38,42 @@
 #include <vlc_input_item.h>
 
 #include <string.h>
+
+/*****************************************************************************
+ * Meta data helpers
+ *****************************************************************************/
+static inline void vlc_audio_replay_gain_MergeFromMeta( audio_replay_gain_t *p_dst,
+                                                        const vlc_meta_t *p_meta )
+{
+    const char * psz_value;
+
+    if( !p_meta )
+        return;
+
+    if( (psz_value = vlc_meta_GetExtra(p_meta, "REPLAYGAIN_TRACK_GAIN")) ||
+        (psz_value = vlc_meta_GetExtra(p_meta, "RG_RADIO")) )
+    {
+        p_dst->pb_gain[AUDIO_REPLAY_GAIN_TRACK] = true;
+        p_dst->pf_gain[AUDIO_REPLAY_GAIN_TRACK] = atof( psz_value );
+    }
+    else if( (psz_value = vlc_meta_GetExtra(p_meta, "REPLAYGAIN_TRACK_PEAK" )) ||
+             (psz_value = vlc_meta_GetExtra(p_meta, "RG_PEAK" )) )
+    {
+        p_dst->pb_peak[AUDIO_REPLAY_GAIN_TRACK] = true;
+        p_dst->pf_peak[AUDIO_REPLAY_GAIN_TRACK] = atof( psz_value );
+    }
+    else if( (psz_value = vlc_meta_GetExtra(p_meta, "REPLAYGAIN_ALBUM_GAIN" )) ||
+             (psz_value = vlc_meta_GetExtra(p_meta, "RG_AUDIOPHILE" )) )
+    {
+        p_dst->pb_gain[AUDIO_REPLAY_GAIN_ALBUM] = true;
+        p_dst->pf_gain[AUDIO_REPLAY_GAIN_ALBUM] = atof( psz_value );
+    }
+    else if( (psz_value = vlc_meta_GetExtra(p_meta, "REPLAYGAIN_ALBUM_PEAK" )) )
+    {
+        p_dst->pb_peak[AUDIO_REPLAY_GAIN_ALBUM] = true;
+        p_dst->pf_peak[AUDIO_REPLAY_GAIN_ALBUM] = atof( psz_value );
+    }
+}
 
 /*****************************************************************************
  * Seek point: (generalisation of chapters)
@@ -203,11 +239,12 @@ static inline void vlc_input_attachment_Delete( input_attachment_t *a )
  *****************************************************************************/
 
 /* i_update field of access_t/demux_t */
+#define INPUT_UPDATE_NONE       0x0000
+#define INPUT_UPDATE_SIZE       0x0001
 #define INPUT_UPDATE_TITLE      0x0010
 #define INPUT_UPDATE_SEEKPOINT  0x0020
 #define INPUT_UPDATE_META       0x0040
 #define INPUT_UPDATE_SIGNAL     0x0080
-#define INPUT_UPDATE_TITLE_LIST 0x0100
 
 /**
  * This defines private core storage for an input.
@@ -307,7 +344,7 @@ typedef enum input_state_e
  * Input rate.
  *
  * It is an float used by the variable "rate" in the
- * range [INPUT_RATE_DEFAULT/INPUT_RATE_MAX, INPUT_RATE_DEFAULT/INPUT_RATE_MIN]
+ * range [INPUT_RATE_DEFAULT/INPUT_RATE_MAX, INPUT_RATE_DEFAULT/INPUT_RATE_MAX]
  * the default value being 1. It represents the ratio of playback speed to
  * nominal speed (bigger is faster).
  *
@@ -433,13 +470,6 @@ enum input_query_e
     INPUT_GET_SPU_DELAY,        /* arg1 = int* res=can fail */
     INPUT_SET_SPU_DELAY,        /* arg1 = int  res=can fail */
 
-    /* Menu navigation */
-    INPUT_NAV_ACTIVATE,
-    INPUT_NAV_UP,
-    INPUT_NAV_DOWN,
-    INPUT_NAV_LEFT,
-    INPUT_NAV_RIGHT,
-
     /* Meta datas */
     INPUT_ADD_INFO,   /* arg1= char* arg2= char* arg3=...     res=can fail */
     INPUT_REPLACE_INFOS,/* arg1= info_category_t *            res=cannot fail */
@@ -487,6 +517,7 @@ enum input_query_e
     /* External clock managments */
     INPUT_GET_PCR_SYSTEM,   /* arg1=mtime_t *, arg2=mtime_t *       res=can fail */
     INPUT_MODIFY_PCR_SYSTEM,/* arg1=int absolute, arg2=mtime_t      res=can fail */
+    
     INPUT_GET_ABORT_FLAG,
 };
 
@@ -566,7 +597,6 @@ static inline vout_thread_t *input_GetVout( input_thread_t *p_input )
 
      if( input_Control( p_input, INPUT_GET_VOUTS, &pp_vout, &i_vout ) )
          return NULL;
-
      for( size_t i = 1; i < i_vout; i++ )
          vlc_object_release( (vlc_object_t *)(pp_vout[i]) );
 
@@ -648,11 +678,5 @@ VLC_API void input_resource_TerminateVout( input_resource_t * );
  * This function releases all resources (object).
  */
 VLC_API void input_resource_Terminate( input_resource_t * );
-
-/**
- * \return the current audio output if any.
- * Use vlc_object_release() to drop the reference.
- */
-VLC_API audio_output_t *input_resource_HoldAout( input_resource_t * );
 
 #endif

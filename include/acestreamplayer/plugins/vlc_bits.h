@@ -1,8 +1,8 @@
 /*****************************************************************************
- * vlc_bits.h : Bit handling helpers
+ * bits.h : Bit handling helpers
  *****************************************************************************
  * Copyright (C) 2003 VLC authors and VideoLAN
- * $Id: 6c2915138c768d9c49b6646dde6c711acf6eabef $
+ * $Id: cac52e6cb7281bbac26024cad3fcad1030b3c778 $
  *
  * Authors: Laurent Aimar <fenrir@via.ecp.fr>
  *

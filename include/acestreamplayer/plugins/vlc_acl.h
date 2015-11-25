@@ -1,7 +1,11 @@
 /*****************************************************************************
- * vlc_inhibit.h: VLC screen saver inhibition
+ * vlc_acl.h: interface to the network Access Control List internal API
  *****************************************************************************
- * Copyright (C) 2009 Rémi Denis-Courmont
+ * Copyright (C) 2005 Rémi Denis-Courmont
+ * Copyright (C) 2005 VLC authors and VideoLAN
+ * $Id: 6c979af7cec8feb60b66103019d161ad90b109b6 $
+ *
+ * Authors: Rémi Denis-Courmont <rem # videolan.org>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -18,24 +22,19 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-/**
- * \file
- * This file defines the interface for screen-saver inhibition modules
- */
+#ifndef VLC_ACL_H
+# define VLC_ACL_H
 
-#ifndef VLC_INHIBIT_H
-# define VLC_INHIBIT_H 1
 
-typedef struct vlc_inhibit vlc_inhibit_t;
-typedef struct vlc_inhibit_sys vlc_inhibit_sys_t;
+VLC_API int ACL_Check( vlc_acl_t *p_acl, const char *psz_ip );
+VLC_API vlc_acl_t * ACL_Create( vlc_object_t *p_this, bool b_allow ) VLC_USED VLC_MALLOC;
+#define ACL_Create(a, b) ACL_Create(VLC_OBJECT(a), b)
+VLC_API vlc_acl_t * ACL_Duplicate( vlc_object_t *p_this, const vlc_acl_t *p_acl ) VLC_USED VLC_MALLOC;
+#define ACL_Duplicate(a,b) ACL_Duplicate(VLC_OBJECT(a),b)
+VLC_API void ACL_Destroy( vlc_acl_t *p_acl );
 
-struct vlc_inhibit
-{
-    VLC_COMMON_MEMBERS
-
-    uint32_t           window_id;
-    vlc_inhibit_sys_t *p_sys;
-    void             (*inhibit) (vlc_inhibit_t *, bool);
-};
+#define ACL_AddHost(a,b,c) ACL_AddNet(a,b,-1,c)
+VLC_API int ACL_AddNet( vlc_acl_t *p_acl, const char *psz_ip, int i_len, bool b_allow );
+VLC_API int ACL_LoadFile( vlc_acl_t *p_acl, const char *path );
 
 #endif

@@ -54,8 +54,18 @@ typedef enum libvlc_acestream_state_t {
 } libvlc_acestream_state_t;
 
 /**
- * Description for url type ( for libvlc_AcestreamLoadUrl event ) DEPRECATED
+ * Description for url type ( for libvlc_AcestreamShowUrl event ) DEPRECATED
  */
+typedef enum libvlc_acestream_showurl_type_t {
+    libvlc_ace_showurl_Undf = -1,
+    libvlc_ace_showurl_Ad,
+    libvlc_ace_showurl_Notification,
+    libvlc_ace_showurl_Services,
+    libvlc_ace_showurl_Overlay,
+    libvlc_ace_showurl_StopAd,
+    libvlc_ace_showurl_TopLine
+} libvlc_acestream_showurl_type_t;
+
 typedef enum libvlc_acestream_loadurl_type_t {
     libvlc_ace_loadurl_Undf = -1,
     libvlc_ace_loadurl_Pause,
@@ -79,6 +89,16 @@ typedef enum libvlc_acestream_loadurl_event_type_t {
     libvlc_ace_loadurl_event_CompleteHidden,
     libvlc_ace_loadurl_event_ErrorHidden
 } libvlc_acestream_loadurl_event_type_t;
+
+typedef enum libvlc_acestream_showinfowindow_type_t {
+    libvlc_ace_showinfowindow_Undf = -1,
+    libvlc_ace_showinfowindow_Type1,
+    libvlc_ace_showinfowindow_Type2,
+    libvlc_ace_showinfowindow_Type3,
+    libvlc_ace_showinfowindow_Type4,
+    libvlc_ace_showinfowindow_Type5,
+    libvlc_ace_showinfowindow_Type6
+} libvlc_acestream_showinfowindow_type_t;
 
 typedef enum libvlc_acestream_infowindow_button_action_t {
     libvlc_ace_btn_action_Close = 1,
@@ -237,6 +257,15 @@ LIBVLC_API bool libvlc_acestream_object_save( libvlc_acestream_object_t *p_ace,
 LIBVLC_API bool libvlc_acestream_object_live_seek( libvlc_acestream_object_t *p_ace, int position );
 
 /**
+ * Command for engine to change HLS stream
+ *
+ * \param p_ace a libvlc_acestream_object instance
+ * \param stream_index stream index to switch to
+ * \return success
+ */
+LIBVLC_API bool libvlc_acestream_object_set_hls_stream( libvlc_acestream_object_t *p_ace, int stream_index );
+
+/**
  * Command for engine to save user data after libvlc_AcestreamShowUserDataDialog event
  *
  * \param p_ace a libvlc_acestream_object instance
@@ -291,6 +320,14 @@ LIBVLC_API void libvlc_acestream_object_activate_video_click( libvlc_acestream_o
 LIBVLC_API void libvlc_acestream_object_skip( libvlc_acestream_object_t *p_ace );
 
 /**
+ * Return volume value for advertisement
+ *  
+ * \param p_ace a libvlc_acestream_object instance
+ * \return volume value
+ */
+LIBVLC_API int libvlc_acestream_object_get_ad_volume( libvlc_acestream_object_t *p_ace );
+
+/**
  * Requests new loadurl ad with type
  *  
  * \param p_ace a libvlc_acestream_object instance
@@ -321,7 +358,7 @@ LIBVLC_API void libvlc_acestream_object_request_loadurl_from_group(libvlc_acestr
 LIBVLC_API void libvlc_acestream_object_register_loadurl_statistics(libvlc_acestream_object_t *p_ace, 
                                             libvlc_acestream_loadurl_type_t type,
                                             libvlc_acestream_loadurl_event_type_t event_type,
-                                            const char *id);
+                                            const char *id );
 
 /**
  * Registers statistics event for loadurl with type
@@ -334,7 +371,7 @@ LIBVLC_API void libvlc_acestream_object_register_loadurl_statistics(libvlc_acest
 LIBVLC_API void libvlc_acestream_object_register_loadurl_event(libvlc_acestream_object_t *p_ace, 
                                             libvlc_acestream_loadurl_type_t type,
                                             const char *event_type,
-                                            const char *id);
+                                            const char *id );
 
 /**
  * Get engine http host
@@ -354,11 +391,54 @@ LIBVLC_API char *libvlc_acestream_object_get_engine_http_host( libvlc_acestream_
 LIBVLC_API int libvlc_acestream_object_get_engine_http_port( libvlc_acestream_object_t *p_ace );
 
 /**
- * Resend last start command
+ * Resend last start command to engine
  *
- * \param p_ace a libvlc_acestream_object instance
  */
 LIBVLC_API void libvlc_acestream_object_restart_last(libvlc_acestream_object_t *p_ace);
+
+/**
+ * \deprecated Reports engine that pause context advertisement shown
+ *  
+ * \param p_ace a libvlc_acestream_object instance
+ * \param id advertisement id
+ */
+LIBVLC_DEPRECATED
+LIBVLC_API void libvlc_acestream_object_register_ad_shown( libvlc_acestream_object_t *p_ace, const char *id );
+
+/**
+ * \deprecated Request for next pause context advertisement to preload
+ *  
+ * \param p_ace a libvlc_acestream_object instance
+ */
+LIBVLC_DEPRECATED
+LIBVLC_API void libvlc_acestream_object_request_pause_ad( libvlc_acestream_object_t *p_ace);
+
+/**
+ * \deprecated Reports engine that context advertisement closed by user
+ *  
+ * \param p_ace a libvlc_acestream_object instance
+ * \param id advertisement id
+ */
+LIBVLC_DEPRECATED
+LIBVLC_API void libvlc_acestream_object_register_ad_closed( libvlc_acestream_object_t *p_ace, const char *id );
+
+/**
+ * \deprecated Reports engine that preroll ad completed
+ *  
+ * \param p_ace a libvlc_acestream_object instance
+ * \param id advertisement id
+ */
+LIBVLC_DEPRECATED
+LIBVLC_API void libvlc_acestream_object_register_preroll_ad_completed( libvlc_acestream_object_t *p_ace, const char *id );
+
+/**
+ * \deprecated Reports engine that preroll ad cannot be load
+ *  
+ * \param p_ace a libvlc_acestream_object instance
+ * \param id advertisement id
+ */
+LIBVLC_DEPRECATED
+LIBVLC_API void libvlc_acestream_object_register_preroll_ad_failed( libvlc_acestream_object_t *p_ace, const char *id );
 
 /** @} acestream */
 

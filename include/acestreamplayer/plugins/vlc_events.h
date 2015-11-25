@@ -1,9 +1,9 @@
 /*****************************************************************************
- * vlc_events.h: events definitions
+ * events.h: events definitions
  * Interface used to send events.
  *****************************************************************************
  * Copyright (C) 2007 VLC authors and VideoLAN
- * $Id: 9e37f7f5753243d52a4fba2616d958598083a53f $
+ * $Id: 842e204ef45aea390aa01d4488abdc89d79b0c08 $
  *
  * Authors: Pierre d'Herbemont
  *
@@ -127,7 +127,6 @@ typedef enum vlc_event_type_t {
     /* Service Discovery event */
     vlc_ServicesDiscoveryItemAdded,
     vlc_ServicesDiscoveryItemRemoved,
-    vlc_ServicesDiscoveryItemRemoveAll,
     vlc_ServicesDiscoveryStarted,
     vlc_ServicesDiscoveryEnded
 } vlc_event_type_t;

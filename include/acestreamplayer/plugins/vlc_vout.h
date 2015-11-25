@@ -1,8 +1,8 @@
 /*****************************************************************************
- * vlc_vout.h: common video definitions
+ * vlc_video.h: common video definitions
  *****************************************************************************
  * Copyright (C) 1999 - 2008 VLC authors and VideoLAN
- * $Id: 2d6c180bfc1dcdf2d57277a44508dcda5d8f17de $
+ * $Id: d3995508b243fe9aec8b6983b928bf12a0e2f8c3 $
  *
  * Authors: Vincent Seguin <seguin@via.ecp.fr>
  *          Samuel Hocevar <sam@via.ecp.fr>
@@ -158,6 +158,8 @@ VLC_API int vout_RegisterSubpictureChannel( vout_thread_t * );
 VLC_API void vout_FlushSubpictureChannel( vout_thread_t *, int );
 
 VLC_API void vout_EnableFilter( vout_thread_t *, const char *,bool , bool  );
+
+VLC_API void vout_GetDisplaySize( vout_thread_t *, int*, int* );
 
 /**@}*/
 

@@ -72,7 +72,7 @@ VLC_API void vout_OSDText( vout_thread_t *vout, int channel, int position, mtime
  * Provided for convenience.
  */
 VLC_API void vout_OSDMessage( vout_thread_t *, int, const char *, ... ) VLC_FORMAT( 3, 4 );
-
+VLC_API void vout_OSDFormatedMessage( vout_thread_t *, int, const char *);
 /**
  * Display a slider on the video output.
  * \param p_this    The object that called the function.
@@ -90,7 +90,6 @@ VLC_API void vout_OSDSlider( vout_thread_t *, int, int , short );
  */
 VLC_API void vout_OSDIcon( vout_thread_t *, int, short );
 
-VLC_API void vout_OSDFormatedMessage( vout_thread_t *, int, const char *);
 VLC_API void vout_P2POSDMessage(vout_thread_t *, mtime_t, const char *);
 
 #ifdef __cplusplus

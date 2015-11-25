@@ -1,7 +1,11 @@
 /*****************************************************************************
- * vlc_inhibit.h: VLC screen saver inhibition
+ * vlc_aout_mixer.h : audio output mixer interface
  *****************************************************************************
- * Copyright (C) 2009 Rémi Denis-Courmont
+ * Copyright (C) 2002-2009 VLC authors and VideoLAN
+ * $Id: ad0d12e7282b07050d2707ecaf01863fcdaa7599 $
+ *
+ * Authors: Christophe Massiot <massiot@via.ecp.fr>
+ *          Laurent Aimar <fenrir _AT_ videolan _DOT_ org>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -18,24 +22,34 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
+#ifndef VLC_AOUT_MIXER_H
+#define VLC_AOUT_MIXER_H 1
+
 /**
  * \file
- * This file defines the interface for screen-saver inhibition modules
+ * This file defines functions, structures and macros for audio output mixer object
  */
 
-#ifndef VLC_INHIBIT_H
-# define VLC_INHIBIT_H 1
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-typedef struct vlc_inhibit vlc_inhibit_t;
-typedef struct vlc_inhibit_sys vlc_inhibit_sys_t;
+typedef struct audio_mixer audio_mixer_t;
 
-struct vlc_inhibit
+/** 
+ * audio output mixer
+ */
+struct audio_mixer
 {
     VLC_COMMON_MEMBERS
 
-    uint32_t           window_id;
-    vlc_inhibit_sys_t *p_sys;
-    void             (*inhibit) (vlc_inhibit_t *, bool);
+    module_t *module; /**< Module handle */
+    vlc_fourcc_t format; /**< Audio samples format */
+    void (*mix)(audio_mixer_t *, block_t *, float); /**< Amplifier */
 };
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -346,6 +346,7 @@ static inline void vout_display_SendEventDisplaySize(vout_display_t *vd, int wid
     p2p_object_t *p_p2p = p2p_Get( vd );
     if( p_p2p ) {
         var_SetCoords( p_p2p, "vout-display-size", width, height );
+        //var_SetBool( p_p2p, "vout-display-fullscreen", is_fullscreen );
     }
     vout_display_SendEvent(vd, VOUT_DISPLAY_EVENT_DISPLAY_SIZE, width, height, is_fullscreen);
 }
