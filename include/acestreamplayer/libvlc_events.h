@@ -82,7 +82,7 @@ enum libvlc_event_e {
     libvlc_MediaListItemSaveFormatChanged,      // generated if save type of acestream media changed (event description - u.media_list_item_saveformat_changed)
     libvlc_MediaListItemHlsStreamsChanged,      // generated if list of hls streams for acestream media is changed
     libvlc_MediaListItemMoved,                  // generated after libvlc_media_list_player_item_move if success (event description - u.media_list_item_moved)
-    
+
     libvlc_MediaListViewItemAdded=0x300,
     libvlc_MediaListViewWillAddItem,
     libvlc_MediaListViewItemDeleted,
@@ -106,7 +106,7 @@ enum libvlc_event_e {
     libvlc_VlmMediaInstanceStatusPause,
     libvlc_VlmMediaInstanceStatusEnd,
     libvlc_VlmMediaInstanceStatusError,
-    
+
     libvlc_AcestreamAuth=0x700,                 // acestrean engine AUTH event (event description - u.acestream_auth)
     libvlc_AcestreamState,                      // acestrean engine STATE event (event description - u.acestream_state)
     libvlc_AcestreamInfo,                       // acestrean engine INFO event (event description - u.acestream_info)
@@ -119,14 +119,15 @@ enum libvlc_event_e {
     libvlc_AcestreamAdParams,                   // advertisements params (event description - u.acestream_adparams)
     libvlc_AcestreamShowPlaylist,               // web plugin must show playlist (for js extensions)
     libvlc_AcestreamStatusRaw,                  // acestream engine STATUS raw data (for js extensions)
-    libvlc_AcestreamPreloadPauseUrl,            // preload context ads for pause 
+    libvlc_AcestreamPreloadPauseUrl,            // preload context ads for pause
     libvlc_AcestreamPreloadNonLinearUrl,        // preload context ads for on video
     libvlc_AcestreamPreloadStopUrl,             // preload context ads for stop
     libvlc_AcestreamPreloadTopLineUrl,          // preload context ads for topline
-    libvlc_AcestreamClearPreloadUrl,            // 
+    libvlc_AcestreamClearPreloadUrl,            //
     libvlc_AcestreamLoadUrl,                    //
     libvlc_AcestreamClearLoadUrl,               //
     libvlc_AcestreamShowInfoWindow,             //
+    libvlc_AcestreamRawEngineEvent,             // raw event from acestream engine
 };
 
 typedef enum libvlc_hotkey_action_t {
@@ -262,7 +263,7 @@ typedef struct libvlc_event_t
             libvlc_media_t * item;
             int index;
         } media_list_will_delete_item;
-        
+
         /* media list player */
         struct
         {
@@ -293,7 +294,7 @@ typedef struct libvlc_event_t
         {
             libvlc_media_t * new_media;
         } media_player_media_changed;
-        
+
         /* acestream */
         struct {
             int auth;           // 0 - user not auth
@@ -307,6 +308,9 @@ typedef struct libvlc_event_t
         struct {
             const char *status; // raw status message from engine (for js only)
         } acestream_status_raw;
+        struct {
+            const char *data; // raw engine event
+        } acestream_raw_engine_event;
         struct {
             const char *info;   // info message
         } acestream_info;
@@ -346,7 +350,7 @@ typedef struct libvlc_event_t
             int top;
             int bottom;
             int right;
-            
+
             bool allow_dialogs;
             bool enable_flash;
             int cookies;
@@ -364,7 +368,7 @@ typedef struct libvlc_event_t
             int top;
             int bottom;
             int right;
-            
+
             bool allow_dialogs;
             bool enable_flash;
             int cookies;
@@ -381,7 +385,7 @@ typedef struct libvlc_event_t
             int top;
             int bottom;
             int right;
-            
+
             bool allow_dialogs;
             bool enable_flash;
             int cookies;
@@ -399,7 +403,7 @@ typedef struct libvlc_event_t
             int top;
             int bottom;
             int right;
-            
+
             bool allow_dialogs;
             bool enable_flash;
             int cookies;
@@ -408,7 +412,7 @@ typedef struct libvlc_event_t
         struct {
             int type;
         } acestream_clearpreloadurl;
-        
+
         /* media list */
         struct
         {
@@ -426,7 +430,7 @@ typedef struct libvlc_event_t
             int from;                       // position from
             int to;                         // position to
         } media_list_item_moved;
-        
+
         /* media player */
         struct {
             bool is_live;
@@ -438,11 +442,11 @@ typedef struct libvlc_event_t
             int last;
             int buffer_pieces;
         } media_player_livepos;             // live broadcast position event (to display input slider correctly)
-        
+
         struct {
             libvlc_hotkey_action_t type;    // libvlc_hotkey_action_t
         } media_player_hotkey;
-        
+
         struct {
             int type;
             const char *id;
@@ -459,18 +463,18 @@ typedef struct libvlc_event_t
             int cookies;
             const char *embed_scripts;
             const char *embed_code;
-            
+
             bool preload;
             int fullscreen;
-            
+
             const char *content_type;
             const char *creative_type;
             const char *click_url;
-            
+
             int user_agent;
             int close_after_seconds;
             int show_time;
-            
+
             bool start_hidden;
             bool url_filter;
             int group_id;

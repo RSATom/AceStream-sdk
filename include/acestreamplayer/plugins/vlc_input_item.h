@@ -62,6 +62,10 @@ struct p2p_data_t
     char **ppsz_qualities;
     int i_current_quality;
     int i_qualities;
+    
+    int i_hls_streams_count;
+    int i_current_hls_stream;
+    int *pi_hls_streams;
 
     p2p_uri_id_type_t i_type;
     p2p_save_format_t i_save_type;
@@ -110,6 +114,9 @@ VLC_API int input_item_GetP2PQualityCurrent( input_item_t * );
 VLC_API int input_item_GetP2PQualitySize( input_item_t * );
 VLC_API p2p_uri_id_type_t input_item_GetP2PType( input_item_t * );
 VLC_API p2p_save_format_t input_item_GetP2PSaveFormat( input_item_t * );
+VLC_API int input_item_GetP2PHlsStreamsCount( input_item_t * );
+VLC_API int input_item_GetP2PHlsStreamsCurrent( input_item_t * );
+VLC_API int input_item_GetP2PHlsStreamBitrate( input_item_t *, int );
 VLC_API int input_item_GetP2PGroup( input_item_t * );
 VLC_API int input_item_GetP2PGroupSize( input_item_t * );
 VLC_API int input_item_GetP2PIndex( input_item_t * );
@@ -130,6 +137,7 @@ VLC_API bool input_item_GetP2PCheckAndSetDuration( input_item_t * );
 VLC_API void input_item_SetP2PPlayCommandFlags( input_item_t *, bool, bool, bool );
 VLC_API void input_item_unSetP2PPlayCommandFlag( input_item_t * );
 VLC_API void input_item_SetP2PSaveType( input_item_t *, p2p_save_format_t );
+VLC_API void input_item_SetP2PHlsStreams( input_item_t *, int, int*, int );
 VLC_API void input_item_ToggleP2PActiveFlag( input_item_t * );
 VLC_API void input_item_SetP2PActiveFlag( input_item_t *, bool );
 VLC_API void input_item_SetP2PQualityCurrent( input_item_t *, int );

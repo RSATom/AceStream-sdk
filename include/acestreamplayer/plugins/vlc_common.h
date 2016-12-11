@@ -404,6 +404,7 @@ typedef struct p2p_object_sys_t p2p_object_sys_t;
 typedef struct p2p_load_item_t p2p_load_item_t;
 typedef struct p2p_play_item_t p2p_play_item_t;
 typedef struct p2p_cansave_item_t p2p_cansave_item_t;
+typedef struct p2p_hls_streams_item_t p2p_hls_streams_item_t;
 typedef struct p2p_showurl_item_t p2p_showurl_item_t;
 typedef struct p2p_showdialog_item_t p2p_showdialog_item_t;
 typedef struct p2p_ad_params_t p2p_ad_params_t;
@@ -443,7 +444,7 @@ typedef union
     vlc_list_t *    p_list;
     mtime_t         i_time;
     struct { int32_t x; int32_t y; } coords;
-    struct { 
+    struct {
         bool is_live;
         int32_t live_first;
         int32_t live_last;
@@ -453,7 +454,7 @@ typedef union
         int32_t last;
         int32_t buffer_pieces;
     } p2p_livepos;
-    struct { 
+    struct {
         char *psz_url;
         int32_t type;
         int32_t width;

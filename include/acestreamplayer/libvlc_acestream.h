@@ -10,7 +10,7 @@ extern "C" {
 /** \defgroup libvlc_acestream_object_t AceStream Object
  * @{
  */
- 
+
 typedef struct libvlc_acestream_object_t libvlc_acestream_object_t;
 
 /**
@@ -146,7 +146,7 @@ LIBVLC_API libvlc_event_manager_t *libvlc_acestream_object_event_manager( libvlc
  * \param p_ace a libvlc_acestream_object instance
  * \param p_mlist_player a libvlc_media_list_player instance
  */
-LIBVLC_API void libvlc_acestream_object_set_media_list_player( libvlc_acestream_object_t *p_ace, 
+LIBVLC_API void libvlc_acestream_object_set_media_list_player( libvlc_acestream_object_t *p_ace,
                                                                libvlc_media_list_player_t *p_mlist_player );
 
 /**
@@ -170,27 +170,27 @@ LIBVLC_API void libvlc_acestream_object_ready( libvlc_acestream_object_t *p_ace 
  * \param affiliate id of affiliate
  * \param zone id of zone
  */
-LIBVLC_API int libvlc_acestream_object_load( libvlc_acestream_object_t *p_ace, 
-                                             const char *psz_id, 
-                                             const char *psz_name, 
+LIBVLC_API int libvlc_acestream_object_load( libvlc_acestream_object_t *p_ace,
+                                             const char *psz_id,
+                                             const char *psz_name,
                                              libvlc_acestream_id_type_t type,
-                                             libvlc_acestream_load_type_t load_type, 
-                                             const char *option_string, 
-                                             int developer, 
-                                             int affiliate, 
+                                             libvlc_acestream_load_type_t load_type,
+                                             const char *option_string,
+                                             int developer,
+                                             int affiliate,
                                              int zone );
 
 /**
  * Deprecated
  */
-LIBVLC_API bool libvlc_acestream_object_start( libvlc_acestream_object_t *p_ace, 
-                                               const char *psz_id, 
-                                               const char *psz_indexes, 
+LIBVLC_API bool libvlc_acestream_object_start( libvlc_acestream_object_t *p_ace,
+                                               const char *psz_id,
+                                               const char *psz_indexes,
                                                libvlc_acestream_id_type_t type,
-                                               int quality, 
-                                               int developer, 
-                                               int affiliate, 
-                                               int zone, 
+                                               int quality,
+                                               int developer,
+                                               int affiliate,
+                                               int zone,
                                                int start_position );
 
 /**
@@ -213,12 +213,12 @@ LIBVLC_API bool libvlc_acestream_object_stop( libvlc_acestream_object_t *p_ace )
  * \param result pointer to allocated mamory for writing result (memory must be allocated and free by caller)
  * \return same as result
  */
-LIBVLC_API char *libvlc_acestream_object_get_content_id( libvlc_acestream_object_t *p_ace, 
-                                                         const char *infohash, 
-                                                         const char *checksum, 
-                                                         int developer, 
-                                                         int affiliate, 
-                                                         int zone, 
+LIBVLC_API char *libvlc_acestream_object_get_content_id( libvlc_acestream_object_t *p_ace,
+                                                         const char *infohash,
+                                                         const char *checksum,
+                                                         int developer,
+                                                         int affiliate,
+                                                         int zone,
                                                          char *result );
 
 /**
@@ -229,8 +229,8 @@ LIBVLC_API char *libvlc_acestream_object_get_content_id( libvlc_acestream_object
  * \param result pointer to allocated mamory for writing result (memory must be allocated and free by caller)
  * \return same as result
  */
-LIBVLC_API char *libvlc_acestream_object_get_content_id_by_index( libvlc_acestream_object_t *p_ace, 
-                                                                  int index, 
+LIBVLC_API char *libvlc_acestream_object_get_content_id_by_index( libvlc_acestream_object_t *p_ace,
+                                                                  int index,
                                                                   char *result );
 
 /**
@@ -242,9 +242,9 @@ LIBVLC_API char *libvlc_acestream_object_get_content_id_by_index( libvlc_acestre
  * \param pathtofile path where file will be saved
  * \return success
  */
-LIBVLC_API bool libvlc_acestream_object_save( libvlc_acestream_object_t *p_ace, 
-                                              const char *infohash, 
-                                              int item_index, 
+LIBVLC_API bool libvlc_acestream_object_save( libvlc_acestream_object_t *p_ace,
+                                              const char *infohash,
+                                              int item_index,
                                               const char *pathtofile );
 
 /**
@@ -266,10 +266,19 @@ LIBVLC_API bool libvlc_acestream_object_live_seek( libvlc_acestream_object_t *p_
 LIBVLC_API bool libvlc_acestream_object_set_hls_stream( libvlc_acestream_object_t *p_ace, int stream_index );
 
 /**
+ * Send raw message to engine
+ *
+ * \param p_ace a libvlc_acestream_object instance
+ * \param data Raw message data
+ * \return success
+ */
+LIBVLC_API bool libvlc_acestream_object_send_engine_message( libvlc_acestream_object_t *p_ace, const char *data );
+
+/**
  * Command for engine to save user data after libvlc_AcestreamShowUserDataDialog event
  *
  * \param p_ace a libvlc_acestream_object instance
- * \param gender 
+ * \param gender
  * \param age
  * \return success
  */
@@ -312,16 +321,16 @@ LIBVLC_API char *libvlc_acestream_object_get_engine_version( libvlc_acestream_ob
 LIBVLC_API void libvlc_acestream_object_activate_video_click( libvlc_acestream_object_t *p_ace, bool activate );
 
 /**
- * Command for engine to skip advertisement 
+ * Command for engine to skip advertisement
  *  Call it only if libvlc_AcestreamAdParams event description data "skippoffset" reached
- *  
+ *
  * \param p_ace a libvlc_acestream_object instance
  */
 LIBVLC_API void libvlc_acestream_object_skip( libvlc_acestream_object_t *p_ace );
 
 /**
  * Return volume value for advertisement
- *  
+ *
  * \param p_ace a libvlc_acestream_object instance
  * \return volume value
  */
@@ -329,46 +338,46 @@ LIBVLC_API int libvlc_acestream_object_get_ad_volume( libvlc_acestream_object_t 
 
 /**
  * Requests new loadurl ad with type
- *  
+ *
  * \param p_ace a libvlc_acestream_object instance
  * \param type a libvlc_acestream_loadurl_type_t loadurl type to request
  */
-LIBVLC_API void libvlc_acestream_object_request_loadurl(libvlc_acestream_object_t *p_ace, 
+LIBVLC_API void libvlc_acestream_object_request_loadurl(libvlc_acestream_object_t *p_ace,
                                             libvlc_acestream_loadurl_type_t type);
 
 /**
  * Requests new loadurl ad with type
- *  
+ *
  * \param p_ace a libvlc_acestream_object instance
  * \param type a libvlc_acestream_loadurl_type_t loadurl type to request
  * \param group int value
  */
-LIBVLC_API void libvlc_acestream_object_request_loadurl_from_group(libvlc_acestream_object_t *p_ace, 
-                                            libvlc_acestream_loadurl_type_t type, 
+LIBVLC_API void libvlc_acestream_object_request_loadurl_from_group(libvlc_acestream_object_t *p_ace,
+                                            libvlc_acestream_loadurl_type_t type,
                                             int group_id);
 
 /**
  * Registers statistics event for loadurl with type
- *  
+ *
  * \param p_ace a libvlc_acestream_object instance
  * \param type a libvlc_acestream_loadurl_type_t loadurl type
  * \param event_type a libvlc_acestream_loadurl_event_type_t event type to register
  * \param id advertisement id
  */
-LIBVLC_API void libvlc_acestream_object_register_loadurl_statistics(libvlc_acestream_object_t *p_ace, 
+LIBVLC_API void libvlc_acestream_object_register_loadurl_statistics(libvlc_acestream_object_t *p_ace,
                                             libvlc_acestream_loadurl_type_t type,
                                             libvlc_acestream_loadurl_event_type_t event_type,
                                             const char *id );
 
 /**
  * Registers statistics event for loadurl with type
- *  
+ *
  * \param p_ace a libvlc_acestream_object instance
  * \param type a libvlc_acestream_loadurl_type_t loadurl type
- * \param event_type 
+ * \param event_type
  * \param id advertisement id
  */
-LIBVLC_API void libvlc_acestream_object_register_loadurl_event(libvlc_acestream_object_t *p_ace, 
+LIBVLC_API void libvlc_acestream_object_register_loadurl_event(libvlc_acestream_object_t *p_ace,
                                             libvlc_acestream_loadurl_type_t type,
                                             const char *event_type,
                                             const char *id );
@@ -398,7 +407,7 @@ LIBVLC_API void libvlc_acestream_object_restart_last(libvlc_acestream_object_t *
 
 /**
  * \deprecated Reports engine that pause context advertisement shown
- *  
+ *
  * \param p_ace a libvlc_acestream_object instance
  * \param id advertisement id
  */
@@ -407,7 +416,7 @@ LIBVLC_API void libvlc_acestream_object_register_ad_shown( libvlc_acestream_obje
 
 /**
  * \deprecated Request for next pause context advertisement to preload
- *  
+ *
  * \param p_ace a libvlc_acestream_object instance
  */
 LIBVLC_DEPRECATED
@@ -415,7 +424,7 @@ LIBVLC_API void libvlc_acestream_object_request_pause_ad( libvlc_acestream_objec
 
 /**
  * \deprecated Reports engine that context advertisement closed by user
- *  
+ *
  * \param p_ace a libvlc_acestream_object instance
  * \param id advertisement id
  */
@@ -424,7 +433,7 @@ LIBVLC_API void libvlc_acestream_object_register_ad_closed( libvlc_acestream_obj
 
 /**
  * \deprecated Reports engine that preroll ad completed
- *  
+ *
  * \param p_ace a libvlc_acestream_object instance
  * \param id advertisement id
  */
@@ -433,7 +442,7 @@ LIBVLC_API void libvlc_acestream_object_register_preroll_ad_completed( libvlc_ac
 
 /**
  * \deprecated Reports engine that preroll ad cannot be load
- *  
+ *
  * \param p_ace a libvlc_acestream_object instance
  * \param id advertisement id
  */
@@ -445,5 +454,5 @@ LIBVLC_API void libvlc_acestream_object_register_preroll_ad_failed( libvlc_acest
 # ifdef __cplusplus
 }
 # endif
-    
+
 #endif

@@ -460,7 +460,7 @@ libvlc_module_description_t *libvlc_audio_filter_list_get( libvlc_instance_t *p_
 LIBVLC_API
 libvlc_module_description_t *libvlc_video_filter_list_get( libvlc_instance_t *p_instance );
 
-/** @} */
+/** @} */
 
 /** \defgroup libvlc_clock LibVLC time
  * These functions provide access to the LibVLC time/clock.
@@ -489,7 +489,7 @@ static inline int64_t libvlc_delay(int64_t pts)
     return pts - libvlc_clock();
 }
 
-/** @} */
+/** @} */
 
 /** \defgroup Additional methods for acestream web-plugin
  * @{
@@ -559,7 +559,7 @@ LIBVLC_API bool libvlc_play_on_click_enabled( libvlc_instance_t *p_instance );
  */
 LIBVLC_API void libvlc_set_flash_enable(libvlc_instance_t *p_instance, bool val );
 
-/** @} */
+/** @} */
 
 # ifdef __cplusplus
 }
